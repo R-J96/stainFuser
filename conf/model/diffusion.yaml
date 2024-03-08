@@ -1,0 +1,21 @@
+noise_scheduler:
+  _target_: diffusers.PNDMScheduler
+
+net:
+  vae_path: ${paths.vae_path}
+  unet_path: ${paths.unet_path}
+  noise_scheduler_path: ${paths.noise_scheduler_path}
+  unlock_decoder: true
+  unlock_encoder: false
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1e-5
+  weight_decay: 1e-2
+  eps: 1e-8
+  betas: [0.9, 0.999]
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.StepLR
+  step_size: 1e10
+  gamma: 1

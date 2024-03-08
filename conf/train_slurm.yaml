@@ -1,0 +1,33 @@
+# @package _global_
+# specify here default configuration
+# order of defaults determines the order in which configs override each other
+defaults:
+  - _self_
+  - data: train
+  - model: diffusion
+  - logger: default
+  - trainer: slurm
+  - paths: default
+  - plugins: slurm_norequeue
+  - extras: default
+  - hydra: default
+
+  - experiment: 20x40x_512_512
+
+
+# resume training option
+resume: null
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 42
+
+# compile model for faster training with pytorch 2.0
+compile: False
+
+# optional logging configs
+image_log: False
+weights_steps_log: False
+weights_epoch_log: False
+
+# cluster things
+slurm: True

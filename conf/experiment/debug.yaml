@@ -1,0 +1,33 @@
+# @package _global_
+# to execute this experiment run:
+# python train.py experiment=data_vol_1
+
+defaults:
+  - override /trainer: cpu
+  - override /paths: default
+  - override /extras: default
+  - override /hydra: default
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+exp_id: 34
+
+trainer:
+  max_epochs: null
+  max_steps: 7
+
+logger:
+  image_logger: 
+    batch_frequency: 5000
+
+data:
+  dataset:
+    output_resolution: 20x40x
+    output_size: 256
+    mixed_resolution: True
+  data_volume: 16
+
+paths:
+  datalist_path: 
+  output_dir: output/

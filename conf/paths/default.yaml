@@ -1,0 +1,16 @@
+# path to root directory
+# this requires PROJECT_ROOT environment variable to exist
+# you can replace it with "." if you want the root to be the current working directory
+
+# path to source data directory
+source_dir: 
+
+# path to target data directory
+target_dir: 
+
+# path to stylized data directory
+stylized_dir: 
+
+vae_path: weights/sd21b_vae.pth
+unet_path: weights/sd21b_unet2dcontition.pth
+noise_scheduler_path: weights/sd21b_scheduler.pth
