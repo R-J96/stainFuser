@@ -8,15 +8,17 @@ from diffusers import (
     UNet2DConditionModel,
     PNDMScheduler,
 )
-
-from models.arch import OveriddenUnet2D, OveriddenControlNet, StainFuserArchitecture
+from safetensors.torch import load_file
+from src.models.arch import OveriddenUnet2D, OveriddenControlNet, StainFuserArchitecture
 from src.misc.utils import (
     load_json,
 )
 
 
 def load_stainFuser(
-    pretrained: Optional[str] = None, config_dir: str = "path/to/config/dir"
+    pretrained: Optional[str] = None,
+    config_dir: str = "path/to/config/dir",
+    device: str = "cpu",
 ) -> StainFuserArchitecture:
     """
     Load the StainFuser model with the given pretrained weights and configurations.
@@ -55,8 +57,11 @@ def load_stainFuser(
 
     if os.path.exists(pretrained):
         print(f"Loading: {pretrained}")
-        pretrained = torch.load(pretrained, map_location=torch.device("cpu"))
-        pretrained = convert_pytorch_checkpoint(pretrained)
+        if pretrained.endswith(".pth"):
+            pretrained = torch.load(pretrained, map_location=torch.device(device))
+            pretrained = convert_pytorch_checkpoint(pretrained)
+        elif pretrained.endswith(".safetensors"):
+            pretrained = load_file(pretrained, device=device)
         (missing_keys, unexpected_keys) = model.load_state_dict(
             pretrained, strict=False
         )
