@@ -129,20 +129,20 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--batch_size", default=8, type=int)
-    # parser.add_argument("--ckpt_path", default="test/checkpoint.pth", type=str)
+    # parser.add_argument("--ckpt_path", default="checkpoints/checkpoint.safetensors", type=str)
     parser.add_argument("--ckpt_path", type=str, required=True)
     parser.add_argument("--config_path", default="src/configs", type=str)
     # parser.add_argument("--target_path", default="data/targets/3021.png", type=str)
     parser.add_argument("--target_path", type=str, required=True)
     parser.add_argument("--output_dir", default="output/", type=str)
-    parser.add_argument("--wsi_dir", type=str, default="data/wsis/")
-    # parser.add_argument("--wsi_dir", type=str, required=True)
-    parser.add_argument("--msk_dir", type=str, default="data/masks/")
-    # parser.add_argument("--msk_dir", type=str, required=True)
+    # parser.add_argument("--wsi_dir", type=str, default="data/wsis/")
+    parser.add_argument("--wsi_dir", type=str, required=True)
+    # parser.add_argument("--msk_dir", type=str, default="data/masks/")
+    parser.add_argument("--msk_dir", type=str, required=True)
     parser.add_argument("--cache_dir", type=str, default="cache/")
+    parser.add_argument("--log_path", default="logs/", type=str)
     parser.add_argument("--diffusion_step", default=20, type=int)
     parser.add_argument("--num_workers", default=8, type=int)
-    parser.add_argument("--log_path", default="logs/", type=str)
     parser.add_argument(
         "--fp16",
         action="store_true",

@@ -26,6 +26,7 @@ def load_stainFuser(
     Args:
         pretrained (Optional[str]): Path to the pretrained model weights. If None, the model is initialized with random weights.
         config_dir (str): Path to the directory containing the configuration files for the model's components.
+        device (str): Device to load the model on.
 
     Returns:
         StainFuserArchitecture: The loaded StainFuser model.

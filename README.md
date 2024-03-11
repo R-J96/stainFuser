@@ -3,7 +3,7 @@
 A conditional diffusion model for high quality stain normalisation. Network transforms a source image to have the staining characteritics of an input target image.
 
 <p align="center">
-   📃 <a href="https://arxiv.org/abs/" target="_blank">Pre-print</a> • 🤗 <a href="https://huggingface.co/datasets/" target="_blank">SPI-2M</a> 
+   📃 <a href="https://arxiv.org/abs/" target="_blank">Pre-print</a> • 🤗 <a href="https://huggingface.co/R-J/StainFuser" target="_blank">Model Weights</a> • 🤗 <a href="https://huggingface.co/datasets/R-J/SPI-2M" target="_blank">Data</a> 
 </p>
 
 
@@ -12,13 +12,11 @@ A conditional diffusion model for high quality stain normalisation. Network tran
 
 ## Updates
 
-* **[2024.01.23]** StainFuser repo released
+* **[2024.01.23]** tbd
 
 ## Environment
 ```
-conda env create -n stainfuser python=3.11
-conda activate stainfuser
-pip install -r requirements.txt
+bash make_env.sh
 ```
 We also provide a Dockerfile which will replicate the enivronment we used in development.
 
@@ -76,14 +74,14 @@ Options:
 
 Notes:
 - masks must have the same name as given slide e.g. for `slide0.svs` mask must be named `slide0.png`
-- inference requires a gpu with a high memory GPU, for example, using a batch size of 8 requires ... GB GPU RAM with 512x512 images. The image size is the main factor in the amount of GPU memory used.
+- Inference requires a high memory GPU, for example, using a batch size of 8 requires ... GB GPU RAM with 512x512 images. The image size is the main factor in the amount of GPU memory used. The default config in the WSI processing engine uses 512x512 tiles at 0.5MPP as StainFuser performs better with larger images.
 
 <!-- </details> -->
 ### Tile level
 
 Input:
 - Standard image files, `png`, `jpg`, `tiff` etc.
-- Numpy array, `N x M x M x 3` numpy arrays of saved images in int8 format.
+- Numpy array, `N x M x M x 3` numpy arrays of saved images in uint8 format.
 
 Output:
 - Either:
@@ -110,7 +108,7 @@ Options:
 ```
 
 ## Training
-For training, download the data from [here](https://huggingface...).
+For training, download the data from [here](https://huggingface.co/datasets/R-J/SPI-2M).
 
 Usage:
 ```
@@ -125,9 +123,9 @@ python train.py --config-name "train"
 
 - Sulis use
     - We used a Sulis cluster as part of our experiments and provide some additional configs and example training code in `conf/train_slurm.yaml` as well as `train.py`.
-    - If you wish to use this you will need to set up slurm submission scripts with the paramters of your cluster
+    - If you wish to use this you will need to set up slurm submission scripts with the paramters of your cluster.
 
-### Illustrative Example
+### Illustrative Example of model training
 <p align="center">
   <img src="docs/unfreeze-0001-3825_tillstep10001.gif" alt="Segmentation" width="512" />
 </p>
@@ -150,7 +148,3 @@ BibTex entry:
 ```
 will be added here when arxiv/published version(s) are live
 ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
