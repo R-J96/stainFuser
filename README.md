@@ -1,9 +1,9 @@
 # StainFuser: Controlling Diffusion for Faster Neural Style Transfer in Multi-Gigapixel Histology Images
 
-A conditional diffusion model for high quality stain normalisation. Network transforms a source image to have the staining characteritics of an input target image.
+A conditional diffusion model for high quality stain normalisation. The network transforms a source image to have the staining characteritics of an input target image via a controlled diffusion process.
 
 <p align="center">
-   📃 <a href="https://arxiv.org/abs/" target="_blank">Pre-print</a> • 🤗 <a href="https://huggingface.co/R-J/StainFuser" target="_blank">Model Weights</a> • 🤗 <a href="https://huggingface.co/datasets/R-J/SPI-2M" target="_blank">Data</a> 
+   📃 <a href="https://arxiv.org/abs/2403.09302" target="_blank">Paper</a> • 🤗 <a href="https://huggingface.co/R-J/StainFuser" target="_blank">Model Weights</a> • 🤗 <a href="https://huggingface.co/datasets/R-J/SPI-2M" target="_blank">Data</a> 
 </p>
 
 
@@ -12,7 +12,7 @@ A conditional diffusion model for high quality stain normalisation. Network tran
 
 ## Updates
 
-* **[2024.01.23]** tbd
+* **[15.03.2024]** [Paper](https://arxiv.org/abs/2403.09302) released.
 
 ## Environment
 ```
@@ -58,7 +58,7 @@ python run_wsi.py [options]
 
 Options:
 ```
-    --batch_size=<n>        Batch size. [default: 16].
+    --batch_size=<n>        Batch size. [default: 8].
     --ckpt_path=<path>      Path to stainFuser weights.
     --config_path=<path>    Path to model component configs.
     --target_path=<path>    Path to target image.
@@ -67,6 +67,7 @@ Options:
     --msk_dir=<path>        Path to directory containing tissue masks per slide.
     --cache_dir=<path>      Path to directory for caching results.
     --log_path=<path>       Path to directory for outputing logs.
+    --file_list=<path>      Optional path to list of file stems to only process a subset of files.
     --diffusion_step=<n>    Number of denoising steps. [default: 20].
     --num_workers=<n>       Number of workers for multiprocessing. [default: 8]
     --fp16=<bool>           Whether to use mixed precision for speedup.
@@ -74,7 +75,7 @@ Options:
 
 Notes:
 - masks must have the same name as given slide e.g. for `slide0.svs` mask must be named `slide0.png`
-- Inference requires a high memory GPU, for example, using a batch size of 8 requires ... GB GPU RAM with 512x512 images. The image size is the main factor in the amount of GPU memory used. The default config in the WSI processing engine uses 512x512 tiles at 0.5MPP as StainFuser performs better with larger images.
+- GPU requirements. Using a batch size of 8 requires ~18 GB GPU RAM for 512x512 images with fp16 precision, with a batch size of 32 ~50GB GPU RAM is needed with the same settings. The image size is the main factor in the amount of GPU memory used. The default config in the WSI processing engine uses 512x512 tiles at 0.5MPP as StainFuser performs better with larger images.
 
 <!-- </details> -->
 ### Tile level
@@ -146,5 +147,12 @@ If you use any part of this code, please cite our paper.
 
 BibTex entry:
 ```
-will be added here when arxiv/published version(s) are live
+@misc{jewsbury2024stainfuser,
+      title={StainFuser: Controlling Diffusion for Faster Neural Style Transfer in Multi-Gigapixel Histology Images}, 
+      author={Robert Jewsbury and Ruoyu Wang and Abhir Bhalerao and Nasir Rajpoot and Quoc Dang Vu},
+      year={2024},
+      eprint={2403.09302},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV}
+}
 ```
