@@ -49,7 +49,7 @@ Executable scripts:
 - Input:
     - WSIs supported by [TiaToolbox](https://github.com/TissueImageAnalytics/tiatoolbox/) e.g. `svs`, `tif`, `ndpi`, `jp2`, `tiff` etc.
 - Output:
-    - `tiff` stain normalized version of each WSI
+    - `tif` stain normalized version of each WSI
 
 Usage:
 ```

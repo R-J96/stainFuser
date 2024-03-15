@@ -112,7 +112,7 @@ def run_post_processing(
 
     # save the image
     npy2pyramid(
-        save_path=f"{output_dir}/{wsi_name}.tiff",
+        save_path=f"{output_dir}/{wsi_name}.tif",
         image=img,
         resolution=resolution,
     )
