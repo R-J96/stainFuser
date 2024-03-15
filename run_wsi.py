@@ -4,6 +4,7 @@ import time
 import torch
 import argparse
 import numpy as np
+import pandas as pd
 
 from pathlib import Path
 from datetime import timedelta
@@ -140,6 +141,12 @@ if __name__ == "__main__":
     # parser.add_argument("--msk_dir", type=str, default="data/masks/")
     parser.add_argument("--msk_dir", type=str, required=True)
     parser.add_argument("--cache_dir", type=str, default="cache/")
+    parser.add_argument(
+        "--file_list",
+        type=str,
+        required=False,
+        help="Optional path to list of file stems in csv format. If provided, only WSIs in the list will be processed.",
+    )
     parser.add_argument("--log_path", default="logs/", type=str)
     parser.add_argument("--diffusion_step", default=20, type=int)
     parser.add_argument("--num_workers", default=8, type=int)
@@ -166,10 +173,18 @@ if __name__ == "__main__":
 
     wsi_paths = recur_find_ext(args.wsi_dir, [".svs", ".ndpi", ".tiff", ".jp2"])
 
+    if args.file_list is not None:
+        file_list = pd.read_csv(args.file_list)
+        wsi_stems = file_list["wsi_stem"].tolist()
+        wsi_paths = [x for x in wsi_paths if Path(x).stem in wsi_stems]
+        assert (
+            len(wsi_paths) > 0
+        ), "No WSIs found in file list found in WSI directory. Exiting."
+
     # initialise model
     log_info("Loading model")
     start = time.perf_counter()
-    model = load_stainFuser(pretrained=args.ckpt_path, config_dir="src/configs")
+    model = load_stainFuser(pretrained=args.ckpt_path, config_dir=args.config_path)
 
     model = WSIStainFuser(
         model,
