@@ -88,7 +88,7 @@ def run_patch_inference(
         # save images as needed
         if args.save_fmt == "npy":
             if last_batch:
-                last_batch_size = dataitem.shape[0]
+                last_batch_size = source_t.shape[0]
                 output_store[-last_batch_size:] = output
             else:
                 output_store[
@@ -110,13 +110,13 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--batch_size", default=8, type=int)
-    # parser.add_argument("--ckpt_path", default="checkpoints/checkpoint.pth", type=str)
+    parser.add_argument("--ckpt_path", default="checkpoints/checkpoint.pth", type=str)
     # parser.add_argument("--ckpt_path", type=str, required=True)
     parser.add_argument("--config_path", default="src/configs", type=str)
     # parser.add_argument("--source_path", default="data/sources/", type=str)
     parser.add_argument("--source_path", type=str, required=True)
-    # parser.add_argument("--target_path", default="data/targets/2766.png", type=str)
-    parser.add_argument("--target_path", type=str, required=True)
+    parser.add_argument("--target_path", default="output/h_target.png", type=str)
+    # parser.add_argument("--target_path", type=str, required=True)
     # parser.add_argument("--output_dir", default="output/", type=str)
     parser.add_argument("--output_dir", type=str, required=True)
     parser.add_argument("--diffusion_steps", default=20, type=int)
@@ -138,6 +138,7 @@ if __name__ == "__main__":
     dataset = PatchInferenceDataset(
         source_path=args.source_path,
         target_path=args.target_path,
+        return_numpy=True if args.save_fmt == 'npy' else False
     )
 
     model = load_stainFuser(pretrained=args.ckpt_path, config_dir="src/configs")

@@ -45,7 +45,7 @@ class PatchInferenceDataset(torch.utils.data.Dataset):
             self.source_files = recur_find_ext(source_path, [".png"])
             source_size = imread(self.source_files[0]).shape[0]
         elif os.path.isfile(source_path):
-            if os.path.endswith(source_path, ".npy"):
+            if str(source_path).endswith(".npy"):
                 self.source_files = np.load(source_path, mmap_mode="r")
             else:
                 raise ValueError("Unsupported source file type")
@@ -70,9 +70,11 @@ class PatchInferenceDataset(torch.utils.data.Dataset):
             return self.source_files.shape[0]
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, str]:
-        source = imread(self.source_files[idx])
-        if not self.return_numpy:
-            source = self.transform(source)
+        if type(self.source_files) == list:
+            source = imread(self.source_files[idx])
+        elif type(self.source_files) == np.memmap:
+            source = self.source_files[idx]
+        source = self.transform(source.copy())
         if type(self.source_files) == list:
             source_path = Path(self.source_files[idx]).stem
         # if np array return the index
